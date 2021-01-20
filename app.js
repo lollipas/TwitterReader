@@ -19,10 +19,10 @@ const endpointUrl = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
 async function getRequest() {
     // Edit query parameters below
     const params = {
-        user_id: '1040755799222575106',
+        user_id: 'some_id',
         count: '1',
         include_rts: 'true',
-        query: 'from:ScribeOfTheEnd9 ',
+        query: 'from:some_user ',
         'tweet.fields':
             'attachments,author_id,created_at,in_reply_to_user_id,referenced_tweets,source',
     };
@@ -40,7 +40,7 @@ async function getRequest() {
     }
 }
 
-//commandfailid loetakse commandside kaustas, filtreeritakse valja failid mis loppevad .jsiga
+
 
 //commandide objekt
 client.on('ready', () => {
@@ -49,24 +49,11 @@ client.on('ready', () => {
     console.log('ready');
     let d = new Date();
     console.log(`Bot activated ${d.getHours()}:${d.getMinutes()}`);
-    //let channel = client.channels.get('795955049108340786');
     let idArr = [];
     setInterval(logTweet, 10000);
     async function logTweet() {
         try {
-            // Make request
-
-            const url = `https://api.twitter.com/1.1/users/show.json?`;
-
-            const params = {
-                user_id: '1040755799222575106',
-            };
-            const res = await needle('get', url, params, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
-
+          
             //let userResponse = await fetch(url);
             const response = await getRequest();
             console.log(response[0].text);
@@ -93,12 +80,9 @@ client.on('ready', () => {
                             ` https://twitter.com/statuses/${latestTweet.id_str}`
                         );
                 });
-                // client.channels.cache
-                //     .find((channel) => channel.name === 'shaun-norris-tweets')
-                //     .send(` https://twitter.com/statuses/${latestTweet.id_str}`);
-                // }
+               
                 idArr.push(latestTweet.id);
-                //console.log(response.latestTweet.text);
+                
             } else {
                 console.log('no new tweets');
                 let de = new Date();
@@ -113,24 +97,6 @@ client.on('ready', () => {
 });
 
 client.on('message', (message) => {
-    const user = message.author;
+    //Do something else
 
-    if (message.mentions.has(client.user)) {
-        let randomNumber = Math.floor(Math.random() * replies.length);
-        message.channel.send(`${user} ${replies[randomNumber]}`);
-    }
-
-    if (
-        message.content.toLowerCase().includes('anime') ||
-        message.content.includes('anime')
-    ) {
-        message.react('🤢');
-    }
-
-    if (
-        message.content.toLowerCase().includes('risen') &&
-        user != client.user
-    ) {
-        message.reply('Ohh yea risen 🥺🥺😳😳 i love risen ');
-    }
 });
